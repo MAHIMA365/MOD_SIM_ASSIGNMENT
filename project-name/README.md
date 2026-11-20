@@ -1,20 +1,22 @@
-# [Project Title]
+# Simulation of Passenger Queues at a Bus Halt: Comparing One and Two Boarding Bays.
 
-[One-sentence pitch: what this simulation does and the question it answers.]
+This project will use queueing theory and discrete-event simulation to compare passenger waiting and service performance at a bus halt with one boarding bay (M/M/1) and two boarding bays (M/M/2).
 
-**[Live demo](https://[your-github-user].github.io/[repository-name]/)** · [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/[your-github-user]/[repository-name]/blob/main/notebook/project-name.ipynb)
+**Live demo:** Pending implementation and deployment. GitHub Pages will be used if supported by the assignment requirements. · **Google Colab notebook:** Pending project setup.
 
-![Screenshot of the web demo](figures/demo-screenshot.png)
+**Web demo screenshot:** Pending implementation.
 
 ## The problem
 
-[The real-world situation, the specific question this simulation answers, and why it matters. Plain English, 1–2 short paragraphs.]
+Passengers arriving at a bus halt may wait in a queue before boarding. The available number of boarding bays and the rates at which passengers arrive and are served can affect waiting time and queue build-up.
+
+This project will simulate passenger arrivals and service durations, then compare one boarding bay (M/M/1) with two boarding bays (M/M/2) under different arrival and service rates. The comparison will consider average waiting time, average queue length, throughput, and utilisation.
 
 ## Quick start
 
-**Notebook:** click the *Open in Colab* badge above, then *Runtime → Run all*. Everything installs and runs in about [N] minutes on a free runtime.
+**Notebook:** The simulation notebook and Colab link are pending. Once available, open the notebook in Google Colab and select *Runtime → Run all*.
 
-**Web demo:** open the [live demo](https://[your-github-user].github.io/[repository-name]/), or download this repository and double-click `docs/index.html`.
+**Web demo:** Pending implementation. The planned demonstration will use HTML, CSS, and JavaScript. GitHub Pages deployment is subject to assignment requirements; a local `docs/index.html` option may be provided.
 
 **Run locally (optional):**
 
@@ -25,42 +27,41 @@ jupyter notebook notebook/project-name.ipynb
 
 ## Using the demo
 
-[Two or three sentences on the main controls and outputs.] Full guide: [USER_GUIDE.md](USER_GUIDE.md).
+The interactive web demonstration is pending implementation. It is intended to let users explore the queue scenarios and compare the resulting performance measures. Instructions will be added to the [user guide](USER_GUIDE.md) when the demo is available.
 
 ## Model and mathematics
 
-[Short summary of the model with its key equation(s), e.g. $\frac{dx}{dt} = f(x, t)$, and the numerical method.] Full derivations, assumptions and parameters: [THEORY.md](THEORY.md).
+The project will compare an M/M/1 queue, representing one boarding bay, with an M/M/2 queue, representing two boarding bays. Passenger inter-arrival intervals and service durations will be generated randomly, and the system will be advanced using discrete-event simulation. Arrival and service rates will be varied to examine their effects on average waiting time, average queue length, throughput, and utilisation. Model assumptions, parameter definitions, and equations are pending documentation in [THEORY.md](THEORY.md).
 
 ## Verification
 
-[How you know the numbers are right: the check(s) you ran and the result, e.g. "the simulated mean wait matches the analytic M/M/1 value to within 2%".]
+Verification checks and results are pending. They will be reported after the simulation has been implemented and tested.
 
-![Verification plot](figures/verification.png)
+**Verification plot:** Pending.
 
 ## Concepts applied
 
-[Name the modelling and numerical concepts this project applies and how each is used. Generic wording only. Example: "This project applies next-event time-advance discrete-event simulation, inverse-transform random variate generation and Monte Carlo confidence intervals based on the law of large numbers, and verifies the simulator against analytic steady-state results."]
+The project applies M/M/1 and M/M/2 queueing models to represent one and two boarding bays, respectively, and discrete-event simulation to model passenger arrivals and service. Random arrival intervals and service durations will be used to explore how changing arrival and service rates affects queue performance. The specific random variate generation and statistical analysis methods will be documented with the completed model.
 
 ## Results
 
-[The answer to the question, with the key figure or table.]
+Experimental results and the comparison between one and two boarding bays are pending; no results are reported at this stage.
 
 ## Limitations and future work
 
-- [Most important assumption and how it limits the result]
-- [What you would add with more time or data]
+- M/M/1 and M/M/2 are idealised queueing models; how well they represent a real bus halt depends on the assumptions and input rates used. These assumptions and their implications remain to be specified.
+- Future work may use suitable observed, aggregate passenger-arrival and service data to inform model parameters, if such data are available and permitted.
 
 ## Key references
 
-1. [Author, "Title," *Venue*, year. DOI/URL]
-2. [...]
+References are pending verification and will be added after the sources used for the model and analysis have been identified.
 
 Full list: [REFERENCES.md](REFERENCES.md).
 
 ## AI assistance
 
-Developed with the help of AI coding and writing assistants. All code was reviewed, run and verified by the author.
+Any AI assistance used during development will be documented in accordance with the assignment requirements. The author is responsible for reviewing and verifying submitted work.
 
 ## Licence and credits
 
-Code: [MIT](LICENSE). Data: [source, licence, e.g. "Weather data: Open-Meteo, CC BY 4.0"].
+Code: [MIT](LICENSE). Data: No data source has been selected or used yet; any future data source and its licence will be documented here.
