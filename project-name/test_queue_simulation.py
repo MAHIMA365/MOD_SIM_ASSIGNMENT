@@ -146,6 +146,20 @@ def test_mm2_simulation_is_reproducible_for_same_seed():
     np.testing.assert_array_equal(first["server_assignments"], second["server_assignments"])
 
 
+def test_mm2_tie_breaking_balances_identical_bays():
+    utilization_by_bay = [[], []]
+    for seed in range(20):
+        result = simulate_mm2(0.1, 1.0, duration=20000.0, seed=seed)
+        for bay_index, utilization in enumerate(result["per_server_utilization"]):
+            utilization_by_bay[bay_index].append(utilization)
+
+    first_mean = np.mean(utilization_by_bay[0])
+    second_mean = np.mean(utilization_by_bay[1])
+    assert first_mean == pytest.approx(0.05, abs=0.005)
+    assert second_mean == pytest.approx(0.05, abs=0.005)
+    assert first_mean == pytest.approx(second_mean, abs=0.005)
+
+
 def test_mm2_finite_simulation_reports_stability_condition():
     stable = simulate_mm2(1.9, 1.0, duration=10.0, seed=42)
     unstable = simulate_mm2(2.0, 1.0, duration=10.0, seed=42)

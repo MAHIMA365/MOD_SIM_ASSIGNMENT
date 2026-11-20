@@ -354,7 +354,7 @@ def simulate_mm2(
                 if passenger_index is None
             ]
             if available_servers:
-                server_index = available_servers[0]
+                server_index = int(rng.choice(available_servers))
                 server_passengers[server_index] = arriving_index
                 next_departure_times[server_index] = start_service(
                     arriving_index,
