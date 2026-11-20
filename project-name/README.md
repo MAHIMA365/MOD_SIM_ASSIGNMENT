@@ -25,6 +25,24 @@ pip install -r requirements.txt
 jupyter notebook notebook/project-name.ipynb
 ```
 
+### Arrival generation example
+
+Generate passenger arrival timestamps for a five-unit simulation with an arrival
+rate of 2 passengers per time unit. The fixed seed makes the output repeatable.
+
+```python
+from arrival_generator import generate_arrival_times
+
+arrivals = generate_arrival_times(arrival_rate=2.0, duration=5.0, seed=42)
+print(arrivals[:5])
+```
+
+Example output:
+
+```text
+[0.1281 0.5399 0.6161 0.7963 1.9776]
+```
+
 ## Using the demo
 
 The interactive web demonstration is pending implementation. It is intended to let users explore the queue scenarios and compare the resulting performance measures. Instructions will be added to the [user guide](USER_GUIDE.md) when the demo is available.
