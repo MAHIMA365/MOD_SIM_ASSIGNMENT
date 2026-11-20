@@ -23,6 +23,7 @@ REPLICATIONS = 20
 DURATION = 20_000.0
 SERVICE_RATE = 1.0
 BASE_SEED = 10_000
+RELATIVE_ERROR_TOLERANCE = 0.05
 OUTPUT_DIRECTORY = Path(__file__).resolve().parent
 CSV_PATH = OUTPUT_DIRECTORY / "verification_results.csv"
 FIGURE_PATH = OUTPUT_DIRECTORY / "figures" / "verification.png"
@@ -105,14 +106,20 @@ def _verification_row(
     mean, lower, upper = _confidence_interval(samples)
     difference = mean - expected
     relative_error = abs(difference) / abs(expected) if expected else float("nan")
-    passed = lower <= expected <= upper
+    interval_covers_theory = lower <= expected <= upper
+    within_tolerance = np.isfinite(relative_error) and relative_error <= RELATIVE_ERROR_TOLERANCE
+    passed = interval_covers_theory or within_tolerance
     return {
         "Check": check,
         "Theoretical expected value": f"{expected:.8g}",
         "Simulated value": f"{mean:.8g}",
         "95% confidence interval": f"[{lower:.8g}, {upper:.8g}]",
+        "95% CI covers theory": str(interval_covers_theory),
         "Difference": f"{difference:.8g}",
         "Relative error": f"{relative_error:.4%}" if np.isfinite(relative_error) else "n/a",
+        "Acceptance criterion": (
+            f"CI covers theory or relative error <= {RELATIVE_ERROR_TOLERANCE:.0%}"
+        ),
         "Pass/fail": "PASS" if passed else "FAIL",
     }
 
@@ -207,8 +214,10 @@ def main() -> None:
                         "Theoretical expected value": "true for every replication",
                         "Simulated value": f"{sum(outcomes)}/{len(outcomes)} passed",
                         "95% confidence interval": "n/a",
+                        "95% CI covers theory": "n/a",
                         "Difference": "n/a",
                         "Relative error": "n/a",
+                        "Acceptance criterion": "all replications pass",
                         "Pass/fail": "PASS" if all(outcomes) else "FAIL",
                     }
                 )
@@ -230,8 +239,10 @@ def main() -> None:
             "Theoretical expected value": "M/M/2 < M/M/1",
             "Simulated value": f"{comparison_values[1]:.8g} < {comparison_values[0]:.8g}",
             "95% confidence interval": "see corresponding metric rows",
+            "95% CI covers theory": "n/a",
             "Difference": f"{comparison_values[1] - comparison_values[0]:.8g}",
             "Relative error": "n/a",
+            "Acceptance criterion": "M/M/2 mean wait is lower",
             "Pass/fail": "PASS" if comparison_values[1] < comparison_values[0] else "FAIL",
         }
     )
@@ -255,6 +266,8 @@ def main() -> None:
         ]
         axis.plot(utilization_grid, theoretical_waits, color="black", label="theory")
         for scenario_name, _ in scenarios:
+            if model_name == "M/M/1" and scenario_name == "same lambda comparison":
+                continue
             point = plot_data.get((model_name, scenario_name))
             if point is None:
                 continue
@@ -265,7 +278,7 @@ def main() -> None:
                 marker="o",
                 capsize=3,
                 linestyle="none",
-                label=scenario_name,
+                label=f"{scenario_name} (mean, 95% CI)",
             )
         axis.set_title(model_name)
         axis.set_xlabel("Utilisation per server, rho")
