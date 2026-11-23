@@ -113,13 +113,13 @@ When an arrival occurs, the passenger enters service immediately if a bay is fre
 
 Arrival and service durations will be generated from independent pseudorandom uniform variates using the inverse-transform equations above. A fixed, recorded seed supports reproducibility. One boarding-bay and two boarding-bay scenarios will be run with matching arrival and per-bay service-rate inputs where comparisons require like-for-like conditions.
 
-Because stochastic estimates vary from run to run, each scenario will use multiple independent replications with separate random streams or seeds. The number of replications, any warm-up period, and the observation duration will be specified and justified when the experiment is designed. Results will be summarised across replications; a confidence interval for a replication-level mean can be calculated as
+Because stochastic estimates vary from run to run, each scenario uses 40 replications of 50,000 time units, with the system initially empty and no warm-up period. Replication seeds are deterministic and distinct across parameter combinations and replications. Paired one-bay and two-bay conditions use the same seed, and therefore the same generated arrival stream, while their service and server-assignment streams can differ. Results are summarised across replications; the reported 95% confidence interval for a replication-level mean is
 
 $$
 \bar{X} \ \pm\ t_{R-1,\,1-\alpha/2}\frac{s_X}{\sqrt{R}},
 $$
 
-where \(X_r\) is a measured quantity from replication \(r\), \(\bar{X}\) is its sample mean over \(R\) replications, \(s_X\) is the sample standard deviation across those replications, \(t_{R-1,\,1-\alpha/2}\) is the corresponding Student's \(t\) critical value, and \(1-\alpha\) is the selected confidence level. The replication count and confidence level are not specified here and will be reported with the experiments.
+where \(X_r\) is a measured quantity from replication \(r\), \(\bar{X}\) is its sample mean over \(R\) replications, \(s_X\) is the sample standard deviation across those replications, \(t_{R-1,\,1-\alpha/2}\) is the corresponding Student's \(t\) critical value, and \(1-\alpha=0.95\). In the finite-horizon implementation, average waiting time is calculated only for passengers completed by the horizon; passengers still waiting are omitted. This completion-conditioned measure can be misleading under overload and should be interpreted with the stability indicator and the time-average queue length, which includes passengers still waiting.
 
 ## 5. Verification
 
