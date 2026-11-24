@@ -1,0 +1,32 @@
+{
+  "implementation": "JavaScript",
+  "replications": 100,
+  "server_count": 1,
+  "arrival_rate": 0.8,
+  "service_rate": 1.0,
+  "duration": 50000.0,
+  "seed_start": 820000,
+  "seed_end": 820099,
+  "metrics": {
+    "average_waiting_time": {
+      "mean": 3.984138336936459,
+      "sample_sd": 0.22874004263817846,
+      "replications": 100
+    },
+    "time_average_queue_length": {
+      "mean": 3.190414673197209,
+      "sample_sd": 0.19311576700791244,
+      "replications": 100
+    },
+    "throughput": {
+      "mean": 0.8005768000000001,
+      "sample_sd": 0.003910122290061059,
+      "replications": 100
+    },
+    "overall_utilization": {
+      "mean": 0.8001814589943534,
+      "sample_sd": 0.006222428667174309,
+      "replications": 100
+    }
+  }
+}

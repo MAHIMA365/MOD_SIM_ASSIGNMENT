@@ -2,7 +2,7 @@
 
 This project will use queueing theory and discrete-event simulation to compare passenger waiting and service performance at a bus halt with one boarding bay (M/M/1) and two boarding bays (M/M/2).
 
-**Live demo:** Pending implementation and deployment. GitHub Pages will be used if supported by the assignment requirements. · **Google Colab notebook:** Pending project setup.
+**Live demo:** The browser-only demo is implemented and prepared for GitHub Pages, but is **not deployed yet**. The repository-root `docs/` folder is the Pages publishing source; enable Pages on the `main` branch to publish it. · **Google Colab notebook:** Pending project setup.
 
 **Web demo screenshot:** Pending implementation.
 
@@ -16,7 +16,7 @@ This project will simulate passenger arrivals and service durations, then compar
 
 **Notebook:** The simulation notebook and Colab link are pending. Once available, open the notebook in Google Colab and select *Runtime → Run all*.
 
-**Web demo:** Open [`docs/index.html`](docs/index.html) directly in a modern browser. It uses only local HTML, CSS, and JavaScript and needs no server or network connection. GitHub Pages deployment is subject to assignment requirements.
+**Web demo:** Open [`docs/index.html`](docs/index.html) directly in a modern browser. It uses only local HTML, CSS, and JavaScript and needs no server or network connection. For GitHub Pages, publish the repository-root `docs/` folder from `main`; the live site is not available until Pages is enabled and its public URL is tested.
 
 **Run locally (optional):**
 
@@ -158,6 +158,49 @@ Regenerate all five 300-DPI PNG figures from the experiment CSVs by running
    Experiment 3 arrival rates. Positive values indicate less waiting or a
    shorter queue with two bays; intervals use matched-seed replication
    differences. The symmetric-log axis shows the zero reference and wide range.
+
+### Python and browser consistency check
+
+The notebook and standalone browser demo are compared as independent
+implementations of the same stable M/M/1 condition: λ = 0.8, μ = 1.0 per bay,
+50,000 time units, an initially empty system, and no warm-up. Both use
+exponential Poisson inter-arrivals and exponential service, FCFS, and the same
+finite-horizon metric conventions. The average wait is computed for passengers
+completed by the horizon; queue length is exactly integrated over the entire
+observation horizon; throughput counts completions divided by duration; and
+utilization is busy time divided by total capacity and duration.
+
+The comparison uses 100 independent replications per implementation. Python
+uses seeds 710000–710099; JavaScript uses 820000–820099. Seeds make each
+implementation's runs repeatable, but the implementations do **not** use
+identical random numbers or identical random-number generators.
+
+**Predeclared tolerance:** For each metric, define the difference as Python
+mean minus JavaScript mean. The tolerance is the half-width of a two-sided 95%
+Welch confidence interval for that difference, computed from the observed
+between-replication standard deviations and sample sizes. Declare statistical
+consistency when that interval contains zero (equivalently, the absolute
+difference is no greater than the tolerance). This tolerance reflects
+Monte-Carlo uncertainty under independent random streams; it is not a claim of
+numerical identity or proof of implementation equivalence. Results are in
+[the consistency-check CSV](data/python_javascript_consistency.csv).
+
+| Metric | Python mean (SD) | JavaScript mean (SD) | Absolute difference | Relative difference | 95% difference CI | Tolerance | Result |
+|---|---:|---:|---:|---:|---:|---:|---|
+| Average waiting time (time units) | 3.975083 (0.212393) | 3.984138 (0.228740) | 0.009055 | 0.2278% | [-0.070612, 0.052502] | 0.061557 | Pass |
+| Time-average queue length (passengers) | 3.179815 (0.178174) | 3.190415 (0.193116) | 0.010599 | 0.3333% | [-0.062417, 0.041218] | 0.051818 | Pass |
+| Throughput (passengers/time unit) | 0.799764 (0.004084) | 0.800577 (0.003910) | 0.000813 | 0.1017% | [-0.001928, 0.000302] | 0.001115 | Pass |
+| Overall utilization (fraction) | 0.799068 (0.005618) | 0.800181 (0.006222) | 0.001114 | 0.1394% | [-0.002767, 0.000540] | 0.001653 | Pass |
+
+All difference intervals include zero, so all four metrics pass the
+predeclared statistical consistency criterion. These small differences are
+compatible with independent random-stream variability. Source inspection
+confirmed that the model event and measurement conventions match; the RNGs and
+random draw ordering differ. This is a consistency check for this one stable
+M/M/1 condition, not proof of exact equivalence across all conditions. Python
+replications are in `data/python_consistency_replications.csv`; JavaScript
+summary statistics are in `data/javascript_consistency_summary.json`. The
+comparison can be recomputed with `python validate_cross_implementation.py compare`.
 
 ## Limitations and future work
 
