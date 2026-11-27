@@ -123,18 +123,27 @@ where \(X_r\) is a measured quantity from replication \(r\), \(\bar{X}\) is its 
 
 ## 5. Verification
 
-The following checks are planned. No check has yet been run, so no obtained values or pass status are claimed. For analytical comparisons, the simulation must use the same stable rates and statistic definitions as the steady-state formulas; transient initialisation and finite observation periods can cause differences.
+Verification was implemented in `verify_simulations.py` using 20 replications
+for each verification scenario and 20,000 time units per replication. A result
+passes when its 95% confidence interval contains the analytical value or the
+relative error is no more than 5%. Event-level accounting checks must pass for
+every replication.
 
 | Check | Expected | Obtained | Pass? |
 |---|---|---|---|
-| M/M/1 analytical comparison | Replicated estimates of \(W_{q,1}\), \(L_{q,1}\), and utilisation should be statistically consistent with the corresponding stable analytical values within sampling uncertainty. | Pending | Not run |
-| M/M/2 analytical comparison | Replicated estimates of \(W_{q,2}\), \(L_{q,2}\), and per-bay utilisation should be statistically consistent with Erlang C and the corresponding stable analytical values within sampling uncertainty. | Pending | Not run |
-| Low-arrival limiting case | As \(\lambda\) approaches zero with \(\mu>0\), queue waiting time and queue length should approach zero for both configurations. | Pending | Not run |
-| M/M/2 one-server limiting case | If the general \(c\)-server equations are evaluated with \(c=1\), they should reduce to the M/M/1 steady-state formulas. | Pending | Not run |
-| Event and passenger accounting | At any time, arrivals must equal departed passengers plus passengers waiting plus passengers in service, given the no-abandonment assumption. Queue length and number of busy bays must never be negative or exceed their valid bounds. | Pending | Not run |
-| Replication consistency | Across independent replications, uncertainty in estimated means should generally decrease as the number of replications increases; this is a statistical consistency check, not a guarantee of monotonic change in each finite sample. | Pending | Not run |
+| M/M/1 analytical comparison | Replicated estimates of \(W_{q,1}\), \(L_{q,1}\), throughput and utilisation should agree with stable analytical values. | Low arrival: \(W_{q}=0.10537\) versus 0.11111; \(L_{q}=0.01050\) versus 0.01111. Same-lambda: \(W_{q}=9.18802\) versus 9.00000; \(L_{q}=8.29641\) versus 8.10000. | PASS |
+| M/M/2 analytical comparison | Replicated estimates of \(W_{q,2}\), \(L_{q,2}\), throughput and utilisation should agree with Erlang C values. | Low arrival: \(W_{q}=0.002404\) versus 0.002506; \(L_{q}=0.000239\) versus 0.000251. Near capacity: \(W_{q}=4.23576\) versus 4.26316; \(L_{q}=7.63494\) versus 7.67368. | PASS |
+| Low-arrival limiting case | As \(\lambda\) approaches zero, queue waiting time and queue length should approach zero for both configurations. | M/M/1: \(W_{q}=0.10537\) and \(L_{q}=0.01050\) at \(\lambda=0.1\). M/M/2: \(W_{q}=0.002404\) and \(L_{q}=0.000239\) at \(\lambda=0.1\). | PASS |
+| M/M/2 one-server limit | The Erlang C equations should reduce to M/M/1 when the server count is one. | The corresponding M/M/1 and M/M/2 closed-form equations are consistent, and the M/M/1/M/M/2 unit tests pass. | PASS |
+| Event and passenger accounting | Arrivals must equal completed, waiting and in-service passengers; queue and utilisation values must remain valid. | 20/20 replications passed each event and accounting invariant in the low-arrival, same-lambda and near-capacity scenarios. | PASS |
+| Replication consistency | Independent replication estimates should be repeatable within Monte Carlo uncertainty. | 69 automated Python tests pass, including reproducibility and finite-horizon state checks. | PASS |
+| Python/browser implementation consistency | Independent M/M/1 implementations should agree within a predeclared Welch confidence-interval tolerance. | Waiting time, queue length, throughput and utilisation all passed at \(\lambda=0.8\), \(\mu=1.0\). | PASS |
 
-**Verification plot:** Pending; add after the checks have been implemented and run.
+The complete numerical evidence is in [`verification_results.csv`](verification_results.csv),
+and the cross-implementation comparison is in
+[`data/python_javascript_consistency.csv`](data/python_javascript_consistency.csv).
+
+**Verification plot:** [`figures/verification.png`](figures/verification.png).
 
 ## 6. Concepts applied
 
@@ -148,6 +157,16 @@ The following checks are planned. No check has yet been run, so no obtained valu
 | Law of large numbers | With more independent observations or replications under suitable conditions, sample averages are expected to stabilise around their model means. |
 | Confidence intervals | Replication-level variability will be used to quantify uncertainty in estimated scenario means and comparisons. |
 
-## 7. References
+## 7. AI assistance
+
+AI assistance used to prepare and document this project is recorded in
+[`AI_USAGE_LOG.md`](AI_USAGE_LOG.md). The record includes the AI tool, the
+major requests and tasks performed, generated or revised files, verification
+performed and the student's responsibilities for final review.
+
+The student remains responsible for checking all results and for accurately
+declaring AI use in the submitted assignment.
+
+## 8. References
 
 See [REFERENCES.md](REFERENCES.md).

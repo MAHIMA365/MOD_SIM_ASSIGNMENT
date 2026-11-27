@@ -1,20 +1,20 @@
 # Simulation of Passenger Queues at a Bus Halt: Comparing One and Two Boarding Bays.
 
-This project will use queueing theory and discrete-event simulation to compare passenger waiting and service performance at a bus halt with one boarding bay (M/M/1) and two boarding bays (M/M/2).
+This project uses queueing theory and discrete-event simulation to compare passenger waiting and service performance at a bus halt with one boarding bay (M/M/1) and two boarding bays (M/M/2).
 
-**Live demo:** The browser-only demo is implemented and prepared for GitHub Pages, but is **not deployed yet**. The repository-root `docs/` folder is the Pages publishing source; enable Pages on the `main` branch to publish it. · **Google Colab notebook:** Pending project setup.
+**Live demo:** The browser-only demo is implemented in [`docs/index.html`](docs/index.html). The repository-root `docs/` folder can be published with GitHub Pages. **Notebook:** The complete Python notebook is [`notebook/bus_halt_queue_simulation.ipynb`](notebook/bus_halt_queue_simulation.ipynb).
 
-**Web demo screenshot:** Pending implementation.
+**User guide:** See [`USER_GUIDE.md`](USER_GUIDE.md) for controls, examples and result interpretation.
 
 ## The problem
 
-Passengers arriving at a bus halt may wait in a queue before boarding. The available number of boarding bays and the rates at which passengers arrive and are served can affect waiting time and queue build-up.
+Passengers arriving at a bus halt may wait in a queue before boarding. The available number of boarding bays and the rates at which passengers arrive and are served affect waiting time and queue build-up.
 
-This project will simulate passenger arrivals and service durations, then compare one boarding bay (M/M/1) with two boarding bays (M/M/2) under different arrival and service rates. The comparison will consider average waiting time, average queue length, throughput, and utilisation.
+This project simulates passenger arrivals and service durations, then compares one boarding bay (M/M/1) with two boarding bays (M/M/2) under different arrival and service rates. The comparison considers average waiting time, average queue length, throughput, and utilisation.
 
 ## Quick start
 
-**Notebook:** The simulation notebook and Colab link are pending. Once available, open the notebook in Google Colab and select *Runtime → Run all*.
+**Notebook:** Open [`notebook/bus_halt_queue_simulation.ipynb`](notebook/bus_halt_queue_simulation.ipynb) locally or upload it to Google Colab, then select *Runtime → Run all*.
 
 **Web demo:** Open [`docs/index.html`](docs/index.html) directly in a modern browser. It uses only local HTML, CSS, and JavaScript and needs no server or network connection. For GitHub Pages, publish the repository-root `docs/` folder from `main`; the live site is not available until Pages is enabled and its public URL is tested.
 
@@ -22,7 +22,7 @@ This project will simulate passenger arrivals and service durations, then compar
 
 ```bash
 pip install -r requirements.txt
-jupyter notebook notebook/project-name.ipynb
+jupyter notebook notebook/bus_halt_queue_simulation.ipynb
 ```
 
 ### Arrival generation example
@@ -55,17 +55,17 @@ How to use sections in the page describe the model and metrics.
 
 ## Model and mathematics
 
-The project will compare an M/M/1 queue, representing one boarding bay, with an M/M/2 queue, representing two boarding bays. Passenger inter-arrival intervals and service durations will be generated randomly, and the system will be advanced using discrete-event simulation. Arrival and service rates will be varied to examine their effects on average waiting time, average queue length, throughput, and utilisation. Model assumptions, parameter definitions, and equations are pending documentation in [THEORY.md](THEORY.md).
+The project compares an M/M/1 queue, representing one boarding bay, with an M/M/2 queue, representing two boarding bays with a shared FCFS queue. Passenger inter-arrival intervals and service durations are generated randomly, and next-event time advancement tracks the system. Arrival and service rates are varied to examine their effects on average waiting time, average queue length, throughput, and utilisation. Assumptions, parameter definitions, equations and metric conventions are documented in [THEORY.md](THEORY.md).
 
 ## Verification
 
-Verification checks and results are pending. They will be reported after the simulation has been implemented and tested.
+Verification has been implemented and run. Stable M/M/1 and M/M/2 results are checked against closed-form queueing values, event-level passenger and server accounting is tested, and 69 automated Python tests pass. Detailed results are in [`verification_results.csv`](verification_results.csv).
 
-**Verification plot:** Pending.
+**Verification plot:** [`figures/verification.png`](figures/verification.png).
 
 ## Concepts applied
 
-The project applies M/M/1 and M/M/2 queueing models to represent one and two boarding bays, respectively, and discrete-event simulation to model passenger arrivals and service. Random arrival intervals and service durations will be used to explore how changing arrival and service rates affects queue performance. The specific random variate generation and statistical analysis methods will be documented with the completed model.
+The project applies M/M/1 and M/M/2 queueing models to represent one and two boarding bays, respectively, and discrete-event simulation to model passenger arrivals and service. Random arrival intervals and service durations are used to explore how changing arrival and service rates affects queue performance. Replication studies, confidence intervals, inverse-transform sampling and analytical verification provide the statistical and mathematical methods.
 
 ## Results
 
@@ -204,18 +204,23 @@ comparison can be recomputed with `python validate_cross_implementation.py compa
 
 ## Limitations and future work
 
-- M/M/1 and M/M/2 are idealised queueing models; how well they represent a real bus halt depends on the assumptions and input rates used. These assumptions and their implications remain to be specified.
-- Future work may use suitable observed, aggregate passenger-arrival and service data to inform model parameters, if such data are available and permitted.
+- M/M/1 and M/M/2 are idealised queueing models; how well they represent a real bus halt depends on whether actual arrivals and service durations satisfy the stated assumptions.
+- The model assumes exponential service times, no passenger abandonment and unlimited queue capacity.
+- Finite-horizon waiting-time estimates exclude passengers unfinished by the horizon and can understate delay in overloaded runs.
+- Future work may use suitable observed passenger-arrival and boarding-service data to calibrate the model, subject to data availability and permissions.
 
 ## Key references
 
-References are pending verification and will be added after the sources used for the model and analysis have been identified.
+Verified references for queueing theory, discrete-event simulation, Monte Carlo methods and verification and validation are listed below.
 
 Full list: [REFERENCES.md](REFERENCES.md).
 
 ## AI assistance
 
-Any AI assistance used during development will be documented in accordance with the assignment requirements. The author is responsible for reviewing and verifying submitted work.
+AI assistance used during the visible report and documentation work is
+recorded in [`AI_USAGE_LOG.md`](AI_USAGE_LOG.md). The log lists the tool,
+prompts, tasks performed and deliverables created. The author remains
+responsible for reviewing, testing and approving the submitted work.
 
 ## Licence and credits
 
