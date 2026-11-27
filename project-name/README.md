@@ -2,7 +2,7 @@
 
 This project uses queueing theory and discrete-event simulation to compare passenger waiting and service performance at a bus halt with one boarding bay (M/M/1) and two boarding bays (M/M/2).
 
-**Live demo:** The browser-only demo is implemented in [`docs/index.html`](docs/index.html). The repository-root `docs/` folder can be published with GitHub Pages. **Notebook:** The complete Python notebook is [`notebook/bus_halt_queue_simulation.ipynb`](notebook/bus_halt_queue_simulation.ipynb).
+**Live demo:** The browser-only demo is implemented in [`docs/index.html`](docs/index.html). The repository-root `docs/` folder can be published with GitHub Pages. **Notebook:** [Open the complete Python notebook in Google Colab](https://colab.research.google.com/github/MAHIMA365/MOD_SIM_ASSIGNMENT/blob/main/project-name/notebook/bus_halt_queue_simulation.ipynb) or [view its source](notebook/bus_halt_queue_simulation.ipynb).
 
 **User guide:** See [`USER_GUIDE.md`](USER_GUIDE.md) for controls, examples and result interpretation.
 
@@ -14,7 +14,7 @@ This project simulates passenger arrivals and service durations, then compares o
 
 ## Quick start
 
-**Notebook:** Open [`notebook/bus_halt_queue_simulation.ipynb`](notebook/bus_halt_queue_simulation.ipynb) locally or upload it to Google Colab, then select *Runtime → Run all*.
+**Notebook:** [Open the notebook in Google Colab](https://colab.research.google.com/github/MAHIMA365/MOD_SIM_ASSIGNMENT/blob/main/project-name/notebook/bus_halt_queue_simulation.ipynb), then select *Runtime → Run all*. To view Colab revision history, first choose *File → Save a copy in Drive*; open the Drive copy and select *File → Revision history*. The repository's commit history is available separately on GitHub.
 
 **Web demo:** Open [`docs/index.html`](docs/index.html) directly in a modern browser. It uses only local HTML, CSS, and JavaScript and needs no server or network connection. For GitHub Pages, publish the repository-root `docs/` folder from `main`; the live site is not available until Pages is enabled and its public URL is tested.
 
